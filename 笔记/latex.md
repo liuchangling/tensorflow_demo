@@ -59,8 +59,7 @@ quad空格，符号：\quad，如：$$x \quad y$$
 求和运算，符号：\sum，如：$$\sum^{x \to \infty}_{y \to 0}{\frac{x}{y}}$$
 求和运算，符号：\displaystyle \sum，如：$$\displaystyle \sum^{x \to \infty}_{y \to 0}{\frac{x}{y}}$$
 积分运算，符号：\int，如：$$ \int^{\infty}_{0}{xdx}$$
-积分运算，符号：\displaystyle \int，如：
-$$\displaystyle \int^{\infty}_{0}{xdx}$$
+积分运算，符号：\displaystyle \int，如：$$\displaystyle \int^{\infty}_{0}{xdx}$$
 微分运算，符号：\partial，如：$$\frac{\partial x}{\partial y}$$
 矩阵表示，符号：\begin{matrix} \end{matrix}，如：$$\left[ \begin{matrix} 1 &2 &\cdots &4\5 &6 &\cdots &8\\vdots &\vdots &\ddots &\vdots\13 &14 &\cdots &16\end{matrix} \right]$$
 

@@ -117,3 +117,45 @@ $$ Loss = - \sum^n_{i=1} y_i log y_i' $$
 ```
 loss_function = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
 ```
+
+## 准确率
+分类问题中预测值和标签值是否相等
+
+```
+correct_prediction = tf.equal(tf.argmax(pred,1), tf.argmax(y,1))
+
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+```
+
+问题 tf.equal 和== 有啥区别？
+tf.cast是类型转换，第二行那一段为投射为浮点数的意思
+
+## argmax 理解
+按轴压缩之后取出最大值的下标
+
+
+## 可视化看结果
+```
+# 可视化看结果的函数，最多显示25张图
+def plot_images_labels_prediction(images,
+                                  labels,
+                                  prediction,
+                                  index, # 从第index个开始显示
+                                  num=10):
+    fig = plt.gcf()# get current figure
+    fig.set_size_inches(10,12) # 当前图像大小为10英寸*12英寸
+    if num>25:
+        num = 25
+    for i in range(0,num):
+        ax = plt.subplot(5,5,i+1) # 获取当前要处理的子图
+        ax.imshow(np.reshape(images[index],(28,28)),cmap='binary') #指定image reshape
+        title = 'label=' + str(np.argmax(labels[index]))
+        
+        ax.set_title(title,fontsize=10) # 在图上显示预测值
+        ax.set_xticks([]) # 为了美观， 不显示x和y轴
+        ax.set_xticks([])
+        index = index + 1
+    plt.show()
+    
+```

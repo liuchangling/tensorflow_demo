@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
-		<camera device-position="back" flash="off" binderror="error" class="camera">
+		<view class="status">{{status}}</view>
+		<camera device-position="front" flash="off" binderror="error" class="camera">
 			<canvas canvas-id="pose" class=canvas>
 
 			</canvas>
@@ -15,7 +16,8 @@
 	export default {
 		data() {
 			return {
-				scale: 1
+				scale: 0.6,
+				status: '初始化成功...',
 			}
 		},
 		async onReady() {
@@ -66,13 +68,16 @@
 			},
 			async loadPosenet() {
 				//  加载模型 也可以修改modelUrl把模型放到本地
+				this.status = '开始从谷歌下载posenet...'
 				this.net = await posenet.load({
 					architecture: 'MobileNetV1',
 					outputStride: 16,
 					inputResolution: 193,
-					multiplier: 0.5
+					multiplier: 0.5,
+					modelUrl: 'https://www.gstaticcnapps.cn/tfjs-models/savedmodel/posenet/mobilenet/float/050/model-stride16.json',
 				});
 				console.log("Posenet load complete!!!")
+				this.status = 'posenet加载成功! 开始体验吧!'
 			},
 
 			async drawPose(frame) {
@@ -133,5 +138,13 @@
 	.canvas {
 		width: 100%;
 		height: 100%;
+	}
+
+	.status {
+		width: 100%;
+		line-height: 12px;
+		font-size: 12px;
+		height: 12px;
+		text-align: center;
 	}
 </style>

@@ -15,7 +15,6 @@ cnpm install @tensorflow/tfjs-core  @tensorflow/tfjs-converter fetch-wechat --sa
 - 小程序开发工具-设置-通用设置-打开gpu加速
  
 4. 模型地址
-- 谷歌云的base url是 https://storage.googleapis.com
 - 中国镜像的base url是https://www.gstaticcnapps.cn
 
 5. 加载模型咯
@@ -28,12 +27,12 @@ const net = await posenet.load({
 			  architecture: 'MobileNetV1',
 			  outputStride: 16,
 			  inputResolution: 193,
-			  multiplier: 0.5
+			  multiplier: 0.5,
+			  modelUrl: 'https://www.gstaticcnapps.cn/tfjs-models/savedmodel/posenet/mobilenet/float/050/model-stride16.json',
 			});
 ```
 
-如果google域名被拒绝，要在小程序后台开发设置的服务器域名中加入域名
-现在google域名已备案，不需要了。
+如果google域名被拒绝，要在小程序后台开发设置的服务器域名中加入域名 www.gstaticcnapps.cn
 
 6. 让小程序支持async等异步操作
 cnpm install regenerator-runtime --save

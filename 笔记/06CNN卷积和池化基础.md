@@ -91,3 +91,36 @@ CNN 是一个多层的神经网络，每层由多个二维平面组成，其中�
 那么卷积之后图像 [(N1-N2)/S + 1 ,(N1-N2)/S + 1]
 
 有一些研究提出，直接提高步长，降维效果比池化好。所以有些模型未使用池化
+
+
+## TensorFlow卷积函数
+定义在 tensorflow/python/opts/nn_impl.py nn_ops.py中
+
+tf.nn.conv2d(input, filter, strides, padding, use_cudnn_on_gpu=None, name=None)
+- input 输入数据。是一个4维张量 ([batch, in_height, in_width, in_channels]) 样本个数，高，宽，通道(彩色=3 灰度=1) 要求类型为float32 或float64
+- filter 卷积核。是一个4维张量 ([filter_height, filter_width, in_channels, in_channels]),高，宽，输入通道数，输出通道数
+- strides 图像每一维的步长。是一个1维张量 长度为4
+- padding same 进行0填充 / valid  不填充
+- use_cudnn_on_gpu 是否启用cudnn加速 bool类型
+- name 该操作的名称
+- 返回值 返回一个tensor 即feature map
+
+tf.nn.depthwise_conv2d(input, filter, strides, padding, name=None)
+tf.nn.separable_conv2d(input, depthwise_filter, pointwise_filter, strides, padding, name=None)
+等等
+
+## TensorFlow池化函数
+定义在 tensorflow/python/opts/nn.py gen_nn_ops.py中
+
+最大池化 tf.nn.max_pool(value, ksize, strides, padding, name=None)
+平均池化 tf.nn.avg_pool(value, ksize, strides, padding, name=None)
+等等
+
+池化层一般位于卷积层之后
+- value 输入图像，通常是conv2d输出的feature map 即 [batch, height, width, channels]
+- ksize 池化窗口的大小，一般不对batch和channels池化，所以一般是[1,height, width ,1]
+- strides 图像每一维的步长
+- padding 同卷积函数padding
+- name 同卷积函数
+- 返回值  返回一个tensor
+

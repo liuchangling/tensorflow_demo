@@ -13,7 +13,8 @@ Deep Dream 根据预测结果，和输入的期望结果之间的误差，调整
 
 # 经典神经网络 
 
-##2012 ImageNet冠军AlexNet
+## AlexNet
+2012 ImageNet冠军
 1. 防止过拟合 
 数据增强
 在数据集较小时获取更多的训练集
@@ -22,12 +23,15 @@ Deep Dream 根据预测结果，和输入的期望结果之间的误差，调整
 - 修改对比度
 dropout
 2. GPU实现 网络分布在2个GPU上，且GPU之间某些层能相互通信
-3. 非线性激活 ReLu
+3. 非线性激活 ReLu代替了sigmoid 随机梯度下降速度大大加快
 4. 大数据训练 120w数据集，1000个分类
 
 ## TensorFlow图像预处理函数
 1. 解码
 tf.image.decode_jpeg(img_data)
+- tf.image.decode_png     
+- tf.image.decode_gif    
+- tf.image.decode_image
 2. 缩放
 tf.image.resize_images(img_data, [256, 256], method=0)
 method:
@@ -52,6 +56,7 @@ tf.image.adjust_contrast(image_data, 0.5) 对比度*0.5
 tf.image.per_image_standardization(image_data) 
 
 ### dropout
+目的： 减少过拟合，缺点：增加训练时间
 - 用于全连接层
 - 每次迭代以某概率将神经元的输出置零，不参与前向和后向传播
 - 产生不同的网络结构，进行组合，大大减少了过拟合

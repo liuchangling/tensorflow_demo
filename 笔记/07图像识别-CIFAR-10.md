@@ -65,6 +65,14 @@ CIFAR-10数据集的Y标签用0-9表示10分类，转成独热编码更方便我
 定义了一系列卷积层，池化层，全连接层，详见代码。
 全连接层用了 h_dropout = tf.nn.dropout(h, keep_prob = 0.8) dropout层
 定义了pred = tf.nn.softmax(tf.matmul(h_dropout, W4) + b4)
+
+
+dropout 在08DeepDream的课程中有讲解：
+- 用于全连接层
+- 每次迭代以某概率将神经元的输出置零，不参与前向和后向传播
+- 产生不同的网络结构，进行组合，大大减少了过拟合
+- 缺点：训练时间增加
+- 
 10. 构建模型（同多层神经网络）
 定义了损失函数，最小化pred和y的距离
 定义了优化器optimizer，最小化损失函数，这次选的优化器是tf.train.AdamOptimizer

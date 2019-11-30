@@ -3,3 +3,5 @@
 */ckpt_dir
 */cifar-10-python.tar
 /图像识别/data
+/Deep Dream/*.pb
+/Deep Dream/*.jpg

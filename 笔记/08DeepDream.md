@@ -98,9 +98,8 @@ tf.image.per_image_standardization(image_data)
 - tf.import_graph_def() 加载
 
 
-// TODO 一大堆代码
-
-tf.expand_dims(data, index) 在index处插入一维
+tf.expand_dims(data, index) 在index处插入一维数组
+这个比较好理解，就不写例子了
 
 
 ## 图的基本操作
@@ -111,4 +110,5 @@ tf.expand_dims(data, index) 在index处插入一维
 - 获取张量  		g.get_tensor_by_name(name="xxx")
 
 
-// TODO 一大堆代码进行Deep Dream 图像生成
+这次封装好了一个render_deepdream  调用比较简单代码直接去ipynb里面找吧
+个人感觉这个玩意输出的图像贼恐怖。。。。

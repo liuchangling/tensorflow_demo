@@ -5,3 +5,5 @@
 /图像识别/data
 /Deep Dream/*.pb
 /Deep Dream/*.jpg
+/vgg16_weights.npz
+/猫狗大战-迁移学习/data

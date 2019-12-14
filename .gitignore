@@ -8,3 +8,5 @@
 /vgg16_weights.npz
 /猫狗大战-迁移学习/data
 /猫狗大战-迁移学习/model
+/Keras泰坦尼克号生存预测/data
+/Keras泰坦尼克号生存预测/checkpoint

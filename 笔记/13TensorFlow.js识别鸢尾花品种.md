@@ -73,15 +73,20 @@ species 种类
 
 
 ![代码结构](iris.png)
-数据
-- 数据准备  data.js IRIS_DATA
-- 数据载入
-模型
+数据 data.js
+- 数据集 IRIS_DATA
+- 划分数据x和标签y ，getIrisData
+- 划分数据集为测试集test和样本集train，并将标签onehot化 convertToTensors 
+数据载入 loader.js
+- 载入模型 tf.loadModel
+模型 index.js
+这部分和keras语法很像，不太需要使用低阶tensorflow api
 -  初始化 tfSquential()
--  创建 add
--  训练 fit
-优化
+-  添加隐层 model.add
+-  定义优化器，损失函数等   model.compile({optimizer: optimizer,loss: 'categoricalCrossentropy',metrics: ['accuracy'],});
+-  训练 model.fit
+优化 index.js
 - tf.loadmodel
 - model.predict
-前端
+前端 ui.js
 - html + css + png

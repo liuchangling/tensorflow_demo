@@ -1,0 +1,257 @@
+<!--
+Copyright 2018 Google LLC. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================
+-->
+
+<html>
+  <head>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-teal.min.css" />
+  </head>
+
+  <body>
+
+  <style>
+    body,dd,dl,fieldset,form,h1,h2,h3,h4,h5,h6,input,legend,ol,p,select,td,textarea,th,ul {
+      margin: 0;
+      padding: 0
+    }
+    body {
+      font: 12px SimSun,"Arial Narrow",HELVETICA;
+      -webkit-text-size-adjust: 100%
+    }
+    .container {
+      padding: 20px;
+      width: 1200px;
+      margin: 0 auto;
+    }
+    button {
+      font-size: 105%;
+    }
+    #demo-status {
+      font-family: Monospace;
+      font-weight: bold;
+    }
+    input {
+      width: 75px;
+    }
+
+    .input-div {
+      padding-bottom: 8px;
+      font-family: monospace;
+    }
+    td {
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-bottom: 5px;
+    }
+    #predict-header {
+      font-weight: bold;
+    }
+    .output-div {
+      padding: 5px;
+      padding-top: 20px;
+      font-family: monospace;
+      font-weight: bold;
+    }
+    .input-label {
+      display: inline-block;
+      width: 150px;
+    }
+
+    .canvases {
+      display: inline-block;
+    }
+
+    #evaluate-table-title{
+      font-weight: bold;
+      font-family: monospace;
+      font-size: 110%;
+      padding-bottom: 5px;
+    }
+    #evaluate-table {
+      border-collapse: collapse;
+      width: 1200px;
+    }
+
+    #evaluate-table td, #evaluate-table th {
+      font-family: monospace;
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    #evaluate-table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+    .horizontal-section + .horizontal-section {
+      margin-top: 20px;
+    }
+
+    .region {
+      text-indent: 2em;
+      line-height: 22px;
+      padding: 10px 15px;
+      border-style: dashed;
+      border-width: 1px;
+      border-color: #888;
+      border-radius: 4px;
+    }
+
+    .region-title {
+      font-weight: bold;
+      text-indent: initial;
+      font-size: 16px;
+      padding-bottom: 15px;
+    }
+
+    .load-save-section {
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+
+    .logit-span {
+      padding-right: 1em;
+    }
+    .correct-prediction {
+      background-color: greenyellow
+    }
+    .wrong-prediction {
+      background-color: red;
+    }
+    .head {
+      position: relative;
+      overflow: hidden;
+      padding: 20px 0;
+      box-sizing: border-box;
+    }
+    .head-title {
+      font-size: 26px;
+      width: 200px;
+    }
+    .head-logo {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top: 50%;
+      left: 210px;
+      transform: translateY(-50%)
+    }
+    #train-from-scratch {
+      margin-left: 180px;
+      width: 75px;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <div class="head">
+          <h2 class="head-title">鸢尾花分类案例</h2>
+          <img class="head-logo" src="iris.jpeg">
+      </div>
+      <div class="horizontal-section">
+          <div class="region">
+          鸢尾属（拉丁学名：Iris L.），单子叶植物纲，百合目，鸢尾科多年生草本植物，有块茎或匍匐状根茎；叶剑形，嵌叠状；花美丽，状花序或圆锥花序；花被花瓣状，有一长或短的管，外弯，花柱分枝扩大，花瓣状而有颜色，外展而覆盖着雄蕊；子房下位，胚珠多数，果为蒴果。本属模式种：德国鸢尾（Iris germanica L. ）原产欧洲，中国各地常见栽培。
+          </div>
+      </div>
+      <div class="horizontal-section">
+        <div class="region">
+          <div class="region-title">训练模型</div>
+          <div class="create-model">
+            <div class="input-div">
+              <span class="input-label">训练轮次:</span>
+              <input id="train-epochs" type="number" value="40"></input>
+            </div>
+            <div class="input-div">
+              <span class="input-label">学习率:</span>
+              <input id="learning-rate" type="number" value="0.01"></input>
+            </div>
+            <button id="train-from-scratch">模型训练</button>
+          </div>
+        </div>
+
+        <div class="region">
+          <div class="region-title">模型保存和加载</div>
+          <div class="load-save-section">
+            <button id="load-pretrained-remote">Load hosted pretrained model</button>
+          </div>
+
+          <div class="load-save-section">
+            <button id="load-local" disabled="true">Load locally-saved model</button>
+            <button id="save-local" disabled="true">Save model locally</button>
+            <button id="remove-local" disabled="true">Remove model locally</button>
+            <span id='local-model-status'>Status unavailable.</span>
+          </div>
+        </div>
+
+        <div>
+          <span id="demo-status">Standing by.</span>
+        </div>
+
+        <div id="horizontal-section">
+          <div class="canvases" id="lossCanvas"></div>
+          <div class="canvases" id="accuracyCanvas"></div>
+        </div>
+
+        <div id="evaluate">
+          <div id="evaluate-table-title">
+            Text Examples
+          </div>
+          <table id="evaluate-table">
+            <tr>
+              <th>花瓣长度</th>
+              <th>花瓣宽度</th>
+              <th>萼片长度</th>
+              <th>萼片宽度</th>
+              <th>真实分类</th>
+              <th>预测分类</th>
+              <th>概率</th>
+            </tr>
+            <tbody id="evaluate-tbody">
+              <tr>
+                <td>
+                  <input id="petal-length" value="5.1"></input>
+                  <button id="petal-length-inc">+</button>
+                  <button id="petal-length-dec">-</button>
+                </td>
+                <td>
+                  <input id="petal-width" value="3.5"></input>
+                  <button id="petal-width-inc">+</button>
+                  <button id="petal-width-dec">-</button>
+                </td>
+                <td>
+                  <input id="sepal-length" value="1.4"></input>
+                  <button id="sepal-length-inc">+</button>
+                  <button id="sepal-length-dec">-</button>
+                </td>
+                <td>
+                  <input id="sepal-width" value="0.2"></input>
+                  <button id="sepal-width-inc">+</button>
+                  <button id="sepal-width-dec">-</button>
+                </td>
+                <td></td>
+                <td id="winner"></td>
+                <td id="logits"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

@@ -56,3 +56,32 @@ model.predict(tf.ones([2, 5])).print();
 #### 内存管理
 - 张量.dispose() 内存释放
 - tf.tidy() 设置一个作用域，里面函数执行完后，会释放内部资源，但会保存返回值
+
+#### 保存模型方法
+- cookie 不超过4KB 每次都会发送至服务器
+- localStorage 2.5MB-10MB 每个浏览器不同，不提供搜索功能，不能自定义索引
+await model.save('localstorage://')
+- IndexedDB 允许存储大梁数据，提供查找接口，还能建立索引，IndexedDB不属于关系型数据库，不支持SQL查询语句，更类似NoSQL。
+await model.save('indexeddb://')
+- http(s) 下载模型  await model.save('http://')
+- 文件下载 await model.save('downloads://')
+- 文件系统下载 node环境下  await model.save('file://')
+
+sepal 花萼 length*width
+petal 花瓣 length*width
+species 种类
+
+
+![代码结构](iris.png)
+数据
+- 数据准备  data.js IRIS_DATA
+- 数据载入
+模型
+-  初始化 tfSquential()
+-  创建 add
+-  训练 fit
+优化
+- tf.loadmodel
+- model.predict
+前端
+- html + css + png

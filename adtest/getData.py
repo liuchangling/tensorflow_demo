@@ -11,9 +11,9 @@ stock_fund_file_name = "./res/stock_fund_all.txt"
 factors = "risk_stdevyearly,risk_maxdownside,risk_sharpe,risk_treynor,return_1m,return_1y,return_3y,periodreturnranking_1m,periodreturnranking_1y,periodreturnranking_3y"
 
 # 日期
-startDate = '20180330'
-endDate = '20210330'
-currentDate = '20210503'
+startDate = '20180430'
+endDate = '20210430'
+currentDate = '20210505'
 params = 'startDate=' + startDate + ';endDate=' + endDate + \
     ";period=2;returnType=1;riskFreeRate=1;index=000001.SH;annualized=0;fundType=1"
 
@@ -31,7 +31,7 @@ f.close()  # 将文件关闭
 w.start()
 
 
-def saveData(stock_fund, file_index):
+def saveData(stock_fund, file_index, need_y = True):
 
     # 获取x
     # 获取过去36个月的因子数据
@@ -42,9 +42,6 @@ def saveData(stock_fund, file_index):
         for key in ['PERIODRETURNRANKING_1M', 'PERIODRETURNRANKING_1Y', "PERIODRETURNRANKING_3Y"]:
             for (index, value) in enumerate(wsd_data[key]):
                 if value and isinstance(value, str):
-                    if value.startswith('Error Code:'):
-                        print(value)    
-                    print(value)
                     temp = value.split('/')
                     s = ''
                     if len(temp) == 2 and int(temp[1]) > 1:
@@ -56,13 +53,14 @@ def saveData(stock_fund, file_index):
     else:
         print("Error Code:", error_code)
 
-    # 获取y 即近一个月回报
-    error_code, wsd_data = w.wsd(stock_fund, "return_1m", endDate, currentDate,
-                                 "annualized=0;Period=Y;Fill=Previous;PriceAdj=F", usedf=True)
-    if error_code == 0:
-        wsd_data.to_csv("./data/y_"+str(file_index)+".csv")
-    else:
-        print("Error Code:", error_code)
+    if need_y :
+        # 获取y 即近一个月回报
+        error_code, wsd_data = w.wsd(stock_fund, "return_1m", endDate, currentDate,
+                                        "annualized=0;Period=Y;Fill=Previous;PriceAdj=F", usedf=True)
+        if error_code == 0:
+            wsd_data.to_csv("./data/y_"+str(file_index)+".csv")
+        else:
+            print("Error Code:", error_code)
 
 
 fundIds = string.split(',')
@@ -70,4 +68,5 @@ count = (len(fundIds) // splitCount) + 1
 for file_index in range(count):
     ids = fundIds[file_index*splitCount : (file_index+1)*splitCount]
     if ids:
-        saveData(','.join(ids), file_index)
+        # saveData(','.join(ids), file_index)
+        saveData(','.join(ids), file_index, False)
